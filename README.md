@@ -37,6 +37,7 @@ This challenge is to implement two features:
 * [json](https://docs.python.org/2/library/json.html)
 
 > Explanation of the algorithm:
+
     1. Read from the source file one line (tweet) at a time
     2. The line will be parsed and encoded as JSON format
     3. Some lines may not have the necessary keys, so we need to check for that
@@ -63,6 +64,7 @@ The output will be in `tweet_output/ft1.txt` file.
 > For challenge 2, the script can be found at `src/average_degree.py`.
 
 > The following libraries were used:
+
 * [os](https://docs.python.org/2/library/os.html)
 * [re](https://docs.python.org/2/library/re.html)
 * [sys](https://docs.python.org/2/library/sys.html)
