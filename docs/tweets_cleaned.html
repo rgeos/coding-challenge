@@ -1,0 +1,68 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module tweets_cleaned</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>tweets_cleaned</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial">
+</font></td></tr></table>
+    <p><tt>Part&nbsp;of&nbsp;the&nbsp;INSIGHT&nbsp;coding&nbsp;challenge.<br>
+&nbsp;<br>
+This&nbsp;script&nbsp;will&nbsp;clean&nbsp;and&nbsp;extract&nbsp;the&nbsp;text&nbsp;from&nbsp;the&nbsp;raw&nbsp;JSON&nbsp;tweets<br>
+that&nbsp;come&nbsp;from&nbsp;a&nbsp;file,&nbsp;and&nbsp;track&nbsp;the&nbsp;number&nbsp;of&nbsp;tweets&nbsp;that&nbsp;contain&nbsp;unicode.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top>
+<b>json,</b>
+<b>os,</b>
+<b>re,</b>
+<b>sys</b>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-cleanString"><strong>cleanString</strong></a>(twitter_line)</dt><dd><tt>This&nbsp;function&nbsp;will&nbsp;prepare&nbsp;a&nbsp;string&nbsp;for&nbsp;JSON&nbsp;encoding<br>
+There&nbsp;are&nbsp;values&nbsp;not&nbsp;surrounded&nbsp;by&nbsp;quotes&nbsp;eg:&nbsp;["favorited":false]<br>
+Due&nbsp;to&nbsp;these&nbsp;values,&nbsp;the&nbsp;string&nbsp;will&nbsp;not&nbsp;be&nbsp;properly&nbsp;encoded&nbsp;as&nbsp;JSON<br>
+&nbsp;<br>
+The&nbsp;function&nbsp;will&nbsp;return&nbsp;a&nbsp;dictionary&nbsp;(JSON&nbsp;format)</tt></dd></dl>
+ <dl><dt><a name="-ft1"><strong>ft1</strong></a>(source, target)</dt><dd><tt>Main&nbsp;function&nbsp;of&nbsp;the&nbsp;script.<br>
+&nbsp;<br>
+Algorithm&nbsp;description:<br>
+&nbsp;<br>
+1.&nbsp;Read&nbsp;from&nbsp;the&nbsp;source&nbsp;file&nbsp;one&nbsp;line&nbsp;(tweet)&nbsp;at&nbsp;a&nbsp;time<br>
+2.&nbsp;The&nbsp;line&nbsp;will&nbsp;be&nbsp;parsed&nbsp;and&nbsp;encoded&nbsp;as&nbsp;JSON&nbsp;format<br>
+3.&nbsp;Some&nbsp;lines&nbsp;may&nbsp;not&nbsp;have&nbsp;the&nbsp;necessary&nbsp;keys,&nbsp;so&nbsp;we&nbsp;need&nbsp;to&nbsp;check&nbsp;for&nbsp;that<br>
+4.&nbsp;If&nbsp;the&nbsp;line&nbsp;does&nbsp;NOT&nbsp;contain&nbsp;the&nbsp;keys&nbsp;we&nbsp;are&nbsp;interested&nbsp;in,&nbsp;skip&nbsp;it&nbsp;(take&nbsp;another&nbsp;line)<br>
+5.&nbsp;If&nbsp;the&nbsp;line&nbsp;contains&nbsp;the&nbsp;keys&nbsp;we&nbsp;are&nbsp;interested&nbsp;in,&nbsp;we&nbsp;will&nbsp;retrieve&nbsp;the&nbsp;values<br>
+&nbsp;&nbsp;&nbsp;at&nbsp;'created_at'&nbsp;(timestamp)&nbsp;&nbsp;and&nbsp;'text'&nbsp;(the&nbsp;content&nbsp;of&nbsp;the&nbsp;tweet)<br>
+6.&nbsp;We&nbsp;clean&nbsp;the&nbsp;contents&nbsp;using&nbsp;[cleanString]&nbsp;function<br>
+7.&nbsp;Next&nbsp;we&nbsp;check&nbsp;if&nbsp;the&nbsp;string&nbsp;returned&nbsp;at&nbsp;the&nbsp;previous&nbsp;step&nbsp;has&nbsp;non-ASCII&nbsp;characters<br>
+8.&nbsp;If&nbsp;the&nbsp;contents&nbsp;of&nbsp;the&nbsp;extracted&nbsp;text&nbsp;(from&nbsp;key&nbsp;'text')&nbsp;has&nbsp;only&nbsp;ASCII&nbsp;characters,<br>
+&nbsp;&nbsp;&nbsp;remove&nbsp;escape&nbsp;characters&nbsp;and&nbsp;new-lines&nbsp;-&nbsp;this&nbsp;is&nbsp;achieved&nbsp;by&nbsp;function&nbsp;[transformString]<br>
+9.&nbsp;If&nbsp;the&nbsp;contents&nbsp;of&nbsp;the&nbsp;extracted&nbsp;text&nbsp;(from&nbsp;key&nbsp;'text')&nbsp;has&nbsp;extra&nbsp;characters&nbsp;(other&nbsp;than&nbsp;ASCII),<br>
+&nbsp;&nbsp;&nbsp;remove&nbsp;those&nbsp;characters,&nbsp;remove&nbsp;escapes&nbsp;and&nbsp;new-lines&nbsp;-&nbsp;this&nbsp;is&nbsp;achieved&nbsp;by&nbsp;function&nbsp;[transformString].<br>
+&nbsp;&nbsp;&nbsp;At&nbsp;this&nbsp;step&nbsp;we&nbsp;also&nbsp;increment&nbsp;the&nbsp;unicode&nbsp;tweets&nbsp;counter<br>
+10.Append&nbsp;the&nbsp;line&nbsp;to&nbsp;the&nbsp;text&nbsp;file&nbsp;with&nbsp;clean&nbsp;tweets<br>
+11.All&nbsp;lines&nbsp;were&nbsp;curated&nbsp;and&nbsp;clean,&nbsp;so&nbsp;it's&nbsp;time&nbsp;to&nbsp;write&nbsp;the&nbsp;number&nbsp;of&nbsp;tweets&nbsp;at&nbsp;the&nbsp;end&nbsp;of&nbsp;the&nbsp;file</tt></dd></dl>
+ <dl><dt><a name="-onlyAscii"><strong>onlyAscii</strong></a>(text)</dt><dd><tt>This&nbsp;function&nbsp;will&nbsp;return&nbsp;True&nbsp;if&nbsp;all&nbsp;characters&nbsp;in&nbsp;the&nbsp;text&nbsp;are&nbsp;ASCII,<br>
+and&nbsp;False&nbsp;otherwise.</tt></dd></dl>
+ <dl><dt><a name="-transformString"><strong>transformString</strong></a>(text, only_escapes<font color="#909090">=False</font>)</dt><dd><tt>This&nbsp;function&nbsp;will&nbsp;clean&nbsp;the&nbsp;text&nbsp;received.<br>
+If&nbsp;the&nbsp;text&nbsp;contains&nbsp;non-ASCII&nbsp;characters,&nbsp;they&nbsp;will&nbsp;be&nbsp;striped&nbsp;off<br>
+Empty&nbsp;lines&nbsp;and&nbsp;new&nbsp;lines&nbsp;will&nbsp;be&nbsp;removed&nbsp;also.<br>
+Finally,&nbsp;escape&nbsp;characters&nbsp;will&nbsp;be&nbsp;removed&nbsp;and&nbsp;return&nbsp;a&nbsp;clean&nbsp;string</tt></dd></dl>
+</td></tr></table><p>
+</body></html>

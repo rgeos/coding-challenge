@@ -1,0 +1,77 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module average_degree</title>
+<meta charset="utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>average_degree</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial">
+</font></td></tr></table>
+    <p><tt>Part&nbsp;of&nbsp;the&nbsp;INSIGHT&nbsp;coding&nbsp;challenge.<br>
+&nbsp;<br>
+This&nbsp;script&nbsp;will&nbsp;calculate&nbsp;the&nbsp;average&nbsp;degree&nbsp;of&nbsp;a&nbsp;vertex<br>
+in&nbsp;a&nbsp;Twitter&nbsp;hashtag&nbsp;graph&nbsp;for&nbsp;the&nbsp;last&nbsp;60&nbsp;seconds,<br>
+and&nbsp;update&nbsp;this&nbsp;each&nbsp;time&nbsp;a&nbsp;new&nbsp;tweet&nbsp;appears.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top>
+<b>igraph,</b>
+<b>datetime,</b>
+<b>itertools,</b>
+<b>os,</b>
+<b>re,</b>
+<b>sys,</b>
+<b>time</b><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">
+ <dl><dt><a name="-cleanData"><strong>cleanData</strong></a>(line)</dt><dd><tt>This&nbsp;function&nbsp;will&nbsp;parse&nbsp;and&nbsp;curate&nbsp;the&nbsp;lines&nbsp;(tweets)<br>
+If&nbsp;one&nbsp;line&nbsp;(tweet)&nbsp;has&nbsp;more&nbsp;than&nbsp;1&nbsp;hashtag,&nbsp;this&nbsp;function<br>
+will&nbsp;return&nbsp;a&nbsp;dictionary&nbsp;with&nbsp;3&nbsp;keys:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;tags:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all&nbsp;hashtags&nbsp;in&nbsp;that&nbsp;particular&nbsp;line&nbsp;(tweet)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;timestamp:&nbsp;&nbsp;&nbsp;the&nbsp;timestamp&nbsp;in&nbsp;POSIX&nbsp;format&nbsp;of&nbsp;the&nbsp;tweet<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;edges:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all&nbsp;possible&nbsp;unique&nbsp;combinations&nbsp;between&nbsp;vertices&nbsp;(a,b)&nbsp;==&nbsp;(b,&nbsp;a)</tt></dd></dl><br>
+ <dl><dt><a name="-cleanTimestamp"><strong>cleanTimestamp</strong></a>(timestamp)</dt><dd><tt>This&nbsp;function&nbsp;will&nbsp;transform&nbsp;the&nbsp;timestamp<br>
+into&nbsp;epoch&nbsp;format&nbsp;for&nbsp;ease&nbsp;of&nbsp;calculation<br>
+&nbsp;<br>
+Returns&nbsp;the&nbsp;time&nbsp;in&nbsp;seconds&nbsp;in&nbsp;POSIX&nbsp;format</tt></dd></dl>
+&nbsp;<br>
+ <dl><dt><a name="-createGraph"><strong>createGraph</strong></a>(e, v)</dt><dd><tt>This&nbsp;function&nbsp;will&nbsp;create&nbsp;a&nbsp;new&nbsp;graph&nbsp;every&nbsp;time&nbsp;is&nbsp;called.<br>
+It&nbsp;will&nbsp;return&nbsp;the&nbsp;degree&nbsp;of&nbsp;the&nbsp;graph</tt></dd></dl>
+ <dl><dt><a name="-ft2"><strong>ft2</strong></a>(source, target)</dt><dd><tt>Main&nbsp;function&nbsp;of&nbsp;the&nbsp;script.<br>
+&nbsp;<br>
+Algorithm&nbsp;description:<br>
+&nbsp;<br>
+1.&nbsp;Read&nbsp;from&nbsp;the&nbsp;source&nbsp;file&nbsp;one&nbsp;line&nbsp;(tweet)&nbsp;at&nbsp;a&nbsp;time<br>
+2.&nbsp;The&nbsp;line&nbsp;(tweet)&nbsp;is&nbsp;being&nbsp;curated&nbsp;based&nbsp;on&nbsp;the&nbsp;[cleanData]&nbsp;function<br>
+3.&nbsp;The&nbsp;curated&nbsp;line&nbsp;(tweet)&nbsp;with&nbsp;more&nbsp;than&nbsp;1&nbsp;hashtag&nbsp;will&nbsp;be&nbsp;returned&nbsp;in&nbsp;the&nbsp;form&nbsp;of&nbsp;a&nbsp;dictionary<br>
+&nbsp;&nbsp;&nbsp;containing&nbsp;a&nbsp;list&nbsp;of&nbsp;hashtags,&nbsp;the&nbsp;timestamp&nbsp;and&nbsp;a&nbsp;list&nbsp;of&nbsp;edges&nbsp;formed&nbsp;between&nbsp;hashes<br>
+4.&nbsp;The&nbsp;line&nbsp;is&nbsp;appended&nbsp;to&nbsp;a&nbsp;master&nbsp;stack&nbsp;list&nbsp;(L)&nbsp;-&nbsp;this&nbsp;stack&nbsp;will&nbsp;hold&nbsp;60sec&nbsp;worth&nbsp;of&nbsp;tweets<br>
+5.&nbsp;Check&nbsp;if&nbsp;there&nbsp;are&nbsp;any&nbsp;tweets&nbsp;older&nbsp;than&nbsp;60&nbsp;sec&nbsp;compared&nbsp;with&nbsp;the&nbsp;latest&nbsp;tweet<br>
+6.&nbsp;If&nbsp;any&nbsp;old&nbsp;tweets,&nbsp;pop&nbsp;the&nbsp;first&nbsp;entry&nbsp;in&nbsp;the&nbsp;master&nbsp;list<br>
+7.&nbsp;Else&nbsp;go&nbsp;on&nbsp;with&nbsp;checking&nbsp;if&nbsp;the&nbsp;new&nbsp;line&nbsp;(tweet)&nbsp;can&nbsp;contribute&nbsp;any&nbsp;new&nbsp;vertices&nbsp;(hashtags)<br>
+&nbsp;&nbsp;&nbsp;to&nbsp;the&nbsp;master&nbsp;vertices&nbsp;list&nbsp;(V)<br>
+8.&nbsp;Extend&nbsp;the&nbsp;master&nbsp;vertices&nbsp;list&nbsp;(V)&nbsp;with&nbsp;the&nbsp;new&nbsp;unique&nbsp;hashtags<br>
+9.&nbsp;Create&nbsp;an&nbsp;adhoc&nbsp;list&nbsp;(E)&nbsp;of&nbsp;possible&nbsp;edges&nbsp;from&nbsp;all&nbsp;the&nbsp;tweets&nbsp;in&nbsp;the&nbsp;master&nbsp;list&nbsp;(L)<br>
+&nbsp;&nbsp;&nbsp;This&nbsp;list&nbsp;will&nbsp;always&nbsp;be&nbsp;emptied&nbsp;when&nbsp;a&nbsp;new&nbsp;line&nbsp;(tweet)&nbsp;will&nbsp;be&nbsp;parsed<br>
+10.The&nbsp;function&nbsp;[createGraph]&nbsp;will&nbsp;create&nbsp;a&nbsp;new&nbsp;graph&nbsp;based&nbsp;on&nbsp;the&nbsp;new&nbsp;edges&nbsp;(E)&nbsp;and&nbsp;vertices&nbsp;(V)<br>
+&nbsp;&nbsp;&nbsp;and&nbsp;at&nbsp;the&nbsp;same&nbsp;time&nbsp;return&nbsp;the&nbsp;average&nbsp;degree&nbsp;of&nbsp;the&nbsp;graph<br>
+11.The&nbsp;return&nbsp;from&nbsp;[createGraph]&nbsp;is&nbsp;written&nbsp;to&nbsp;file</tt></dd></dl><br>
+ <dl><dt><a name="-uniqueTags"><strong>uniqueTags</strong></a>(l1, l2)</dt><dd><tt>This&nbsp;function&nbsp;will&nbsp;return&nbsp;the&nbsp;difference&nbsp;between&nbsp;2&nbsp;lists<br>
+It&nbsp;is&nbsp;used&nbsp;for&nbsp;updating&nbsp;the&nbsp;master&nbsp;vertices&nbsp;list&nbsp;(V)</tt></dd></dl>
+</td></tr></table><p>
+</body></html>
