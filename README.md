@@ -28,15 +28,16 @@ This challenge is to implement two features:
 
 ### Feature 1
 
-> For challenge 1, the script can be found at `src/tweets_cleaned.py`.
+- For challenge 1, the script can be found at `src/tweets_cleaned.py`.
 
-> The following libraries were used:
+- The following libraries were used:
+
 * [os](https://docs.python.org/2/library/os.html)
 * [re](https://docs.python.org/2/library/re.html)
 * [sys](https://docs.python.org/2/library/sys.html)
 * [json](https://docs.python.org/2/library/json.html)
 
-> Explanation of the algorithm:
+- **Explanation of the algorithm**:
 
     1. Read from the source file one line (tweet) at a time
     2. The line will be parsed and encoded as JSON format
@@ -50,7 +51,7 @@ This challenge is to implement two features:
     10. Append the line to the text file with clean tweets
     11. All lines were curated and clean, so it's time to write the number of tweets at the end of the file
 
-> How to use the script independently
+- How to use the script independently
 
 ```
 # cd src/
@@ -61,9 +62,9 @@ The output will be in `tweet_output/ft1.txt` file.
 
 ### Feature 2
 
-> For challenge 2, the script can be found at `src/average_degree.py`.
+- For challenge 2, the script can be found at `src/average_degree.py`.
 
-> The following libraries were used:
+- The following libraries were used:
 
 * [os](https://docs.python.org/2/library/os.html)
 * [re](https://docs.python.org/2/library/re.html)
@@ -73,7 +74,7 @@ The output will be in `tweet_output/ft1.txt` file.
 * [igraph](http://igraph.org/python/)
 * [datetime](https://docs.python.org/2/library/datetime.html)
 
-> Explanation of the algorithm:
+- **Explanation of the algorithm**:
 
     1. Read from the source file one line (tweet) at a time
     2. The line (tweet) is being curated based on the `cleanData` function
@@ -88,7 +89,7 @@ The output will be in `tweet_output/ft1.txt` file.
        and at the same time return the average degree of the graph
     11. The return from `createGraph` is written to file
 
-> How to use the script independently
+- How to use the script independently
 
 ```
 # cd src/
