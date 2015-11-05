@@ -119,7 +119,7 @@ def transformString(text, only_escapes = False):
     if(not only_escapes):           # this will cleanup the non-ASCII characters
         text = ''.join([x for x in text if ord(x) < 128])
         
-    text = re.sub(r'^\s+$|\r|\n','',text)    # residue empty lines, new lines
+    text = re.sub(r'\s+|\r|\n|\t',' ',text)    # residue empty lines, new lines
     
     escapes = re.compile(r'(\\|\n){1,}(.)')  # this is the pattern for the escape character
     
